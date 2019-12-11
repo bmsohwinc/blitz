@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Exec=/home/dell/Desktop/blitz_starter.sh
+Name=Blitz
+Comment=Launches Web IDE
+Terminal=true
+Type=Application
+Categories=Utility;
+GenericName=Launches the Local IDE

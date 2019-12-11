@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Blitz</title>
+
+        <!-- JQuery linking -->
+        <script src="jquery.js"></script>
+
+        <!-- CSS File linking -->
+        <link rel="stylesheet" href="styles.css">
+
+        <style>
+
+            form {
+                /* height: 700px; */
+                height: 50rem;
+            }
+
+
+            /* #input {
+                height: 200px;
+                max-height: 200px;
+            } */
+
+            #editor {
+                margin: 0;
+                /* padding: 1%; */
+                position: relative;
+                display: inline-block;
+                font-size: 1.1rem;
+                width: 90%;
+                height: 40rem;
+
+                border: 2px solid #91bd3a;                
+            }
+        
+        </style>
+
+
+    </head>
+    <body>
+
+        <div class="top-container">
+            <!-- <div class="row">
+                <div class="col">
+                    <img src="images/mycon.png" class="icon">
+                </div>
+                <div class="col">
+                    <h1>Your Local Web IDE</h1>
+                </div>
+            </div> -->
+            <img src="images/mycon.png" class="icon box">
+            <span class="app-name">Blitz IDE</span>
+        </div>        
+
+        <!-- enctype="text/plain" -->
+        <form id="code_area" action="/" method="POST">
+            
+            <!-- cols="70" rows="70" -->
+            <!-- <textarea name="code" id="editor" cols="70" rows="70">
+                // Your code here...
+            </textarea>
+             -->
+            
+            <div class="editors-div">
+                <div id="editor" name="the_code">#include&lt;bits/stdc++.h&gt;
+using namespace std;
+
+int main() {
+    
+    printf("Hello World!\n");
+    return 0;
+}
+                </div>
+            </div> 
+                            
+            <input type="hidden" name="the_code" id="the_code_hidden">
+
+            <!-- <div class="panel"> -->
+            <div class="container">
+                <div class="row first-row">
+                    <div class="col in-col">Input</div>
+                    <div class="col out-col">Ouput</div>
+                </div>
+                <div class="row second-row">
+                    <textarea class="text-in tbx" name="input" id="input" cols="30" rows="15"></textarea>                    
+                    <textarea class="text-out tbx" id="output" cols="30" rows="15"></textarea>
+                    <div class="btn-div">
+                        <button class="run-btn" type="submit" name="run">RUN</button>
+                    </div>
+                </div>
+            </div>
+<!-- 
+            <span class="input-span"></span>
+            <span class="output-span">Ouput</span><br> -->
+
+                <!-- It's been right here...  -->
+            <!-- <textarea name="input" id="input" cols="30" rows="15"></textarea> -->
+            
+            
+            <!-- <button type="submit" class="run-btn" name="run"> RUN </button> -->
+            
+            
+            <!-- </div> -->
+            
+
+        </form>
+
+        <!-- <div class="output-panel"> -->        
+        <!-- <textarea id="output" cols="30" rows="15"></textarea> -->
+        <!-- </div> -->
+        <!-- <div id="output box">here</div> -->
+        
+
+        <script  src="ace-builds/src-min-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+        <script>
+            var editor = ace.edit("editor");
+            editor.setTheme("ace/theme/gruvbox");
+            editor.session.setMode("ace/mode/c_cpp");
+
+            // function prepareCode() {
+            //     document.getElementById("the_code_hidden").value = editor.getSession().getValue();
+            //     // document.getElementById("editor").textContent;
+            // }
+
+
+            // New changes
+            $(document).ready(function() {
+
+                
+                console.log($("#the_code_hidden"))
+                $("#code_area").submit(function(event) {
+                    event.preventDefault();
+                
+                    document.getElementById("the_code_hidden").value = editor.getSession().getValue();                
+                    var the_code = $("#the_code_hidden").val(); 
+                    var input = $("#input").val();
+                    console.log('this is here',the_code);
+
+                    $.ajax({
+                        method: 'post',
+                        url: '/',
+                        // data: JSON.stringify({
+                        //     the_code: the_code, 
+                        //     input: input
+                        // }),
+                        data: {the_code: the_code, input: input},
+                        
+                        // data: JSON.stringify($("#code_area").serializeArray()),
+                        // contentType: 'applications/json',
+                        // dataType: 'json',
+                        success: function(data) {
+                            $("#output").val(data);
+                            // $("#output").text(data);
+                        }
+                    });
+                });
+            });
+
+
+        </script>
+
+        <!-- <script src="app.js"></script> -->
+
+    </body>
+</html>
